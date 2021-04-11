@@ -23,11 +23,9 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref ParamMainVPCCIRD
-      EnableDnsHostnames: true
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
-    DependsOn: MainVPC
 
   AttachInternetGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -42,7 +40,7 @@ Resources:
     Properties:
       VpcId: !Ref MainVPC
       CidrBlock: !Ref ParamPrivateSubnetCIRD
-      MapPublicIpOnLaunch: true
+      MapPublicIpOnLaunch: false
 
   PublicSubnet:
     Type: AWS::EC2::Subnet
@@ -84,16 +82,16 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet
 
-  PublicInternetRoute:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable
-      NatGatewayId: !Ref InternetGateway
-      DestinationCidrBlock: 0.0.0.0/0
-
   PrivateInternetRoute:
     Type: AWS::EC2::Route
     Properties:
-      RouteTableId: !Ref AssociatePublicRouteTable
+      RouteTableId: !Ref PrivateRouteTable
       NatGatewayId: !Ref NAT
+      DestinationCidrBlock: 0.0.0.0/0
+
+  PublicInternetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      GatewayId: !Ref InternetGateway
       DestinationCidrBlock: 0.0.0.0/0
