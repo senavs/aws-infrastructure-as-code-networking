@@ -26,3 +26,15 @@ Write a CloudFormation script that:
   - Create a Route in the Public Route Table to send default traffic ( 0.0.0.0/0 ) to the Internet Gateway you created
   - Create a Route in the Private Route Table to send default traffic ( 0.0.0.0/0 ) to the NAT Gateway
   - Finally, once you execute this CloudFormation script, you should be able to delete it and create it again, over and over in a predictable and repeatable manner, this is the true verification of working Infrastructure-as-Code
+
+## Setup
+
+Create stack
+```sh
+aws cloudformation create-stack --stack-name udacity-challenge --template-body file://iac.yml --parameters file://parameters.json
+```
+
+Update stack
+```sh
+aws cloudformation update-stack --stack-name udacity-challenge --template-body file://iac.yml --parameters file://parameters.json
+```

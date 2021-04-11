@@ -1,0 +1,16 @@
+Description: Udacity Cloud DevOps Engineer Nanodegree Program - Challenge AWS IaC Networking Architecture
+
+Parameters:
+  
+  ParamMainVPCCIRD:
+    Description: IP range (CIDR notation)
+    Type: String
+    Default: 10.0.0.0/16
+
+Resources:
+
+  MainVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref ParamMainVPCCIRD
+      EnableDnsHostnames: true
