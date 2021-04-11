@@ -7,6 +7,16 @@ Parameters:
     Type: String
     Default: 10.0.0.0/16
 
+  ParamPublicSubnetCIRD:
+    Description: IP range (CIDR notation)
+    Type: String
+    Default: 10.0.1.0/24
+
+  ParamPrivateSubnetCIRD:
+    Description: IP range (CIDR notation)
+    Type: String
+    Default: 10.0.2.0/24
+
 Resources:
 
   MainVPC:
@@ -25,3 +35,18 @@ Resources:
     Properties:
       VpcId: !Ref MainVPC
       InternetGatewayId: !Ref InternetGateway
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    DependsOn: InternetGateway
+    Properties:
+      VpcId: !Ref MainVPC
+      CidrBlock: !Ref ParamPrivateSubnetCIRD
+      MapPublicIpOnLaunch: true
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MainVPC
+      CidrBlock: !Ref ParamPublicSubnetCIRD
+      MapPublicIpOnLaunch: true
