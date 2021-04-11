@@ -14,3 +14,14 @@ Resources:
     Properties:
       CidrBlock: !Ref ParamMainVPCCIRD
       EnableDnsHostnames: true
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: MainVPC
+
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    DependsOn: InternetGateway
+    Properties:
+      VpcId: !Ref MainVPC
+      InternetGatewayId: !Ref InternetGateway
